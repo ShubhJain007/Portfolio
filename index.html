@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubh Jain | Academic Portfolio</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Using a system font stack for simplicity and performance */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            background-color: #f7f7f7; /* Changed back to a very light gray */
+            color: #333;
+        }
+        h1, h2, h3 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background-color: #1f2937; /* Dark gray for underline */
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        .nav-link:hover {
+            color: #1f2937; /* Dark gray for hover */
+        }
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        details > summary {
+            list-style: none;
+        }
+        .filter-btn-active {
+            background-color: #1f2937; /* Dark gray for active button */
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .filter-btn:hover {
+            background-color: #d1d5db; /* A lighter gray for hover */
+        }
+        .filter-btn-active:hover {
+            background-color: #374151; /* Slightly darker gray on hover */
+        }
+        .project-img {
+            width: 100%;
+            height: 160px; /* Adjusted image height for smaller cards */
+            object-fit: cover;
+            border-radius: 0.75rem; /* Rounded corners for the image */
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+            filter: brightness(0.85);
+        }
+        /* Drone Animation Styles */
+        @keyframes fly-across {
+            0% { transform: translateX(-100vw); opacity: 0; }
+            10% { opacity: 0.1; }
+            90% { opacity: 0.1; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
+
+        @keyframes hover-up-down {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .drone {
+            position: absolute;
+            opacity: 0;
+            animation: fly-across linear infinite;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .drone:nth-child(1) {
+            top: 20%;
+            left: -10%;
+            width: 80px;
+            animation-duration: 25s;
+            animation-delay: 0s;
+        }
+        .drone:nth-child(2) {
+            top: 50%;
+            left: -20%;
+            width: 60px;
+            animation-duration: 30s;
+            animation-delay: 5s;
+        }
+        .drone:nth-child(3) {
+            top: 80%;
+            left: -30%;
+            width: 70px;
+            animation-duration: 28s;
+            animation-delay: 10s;
+        }
+        .drone svg {
+            animation: hover-up-down ease-in-out infinite 3s;
+        }
+        .publication-link-btn {
+            @apply text-sm font-medium text-gray-800 bg-gray-100 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors;
+        }
+        .publication-link-btn:hover {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white fixed top-0 left-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold text-gray-800 hover:text-gray-900 transition-colors">Shubh Jain</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#experience" class="nav-link text-gray-600 font-medium text-base">Experience</a>
+                <a href="#projects" class="nav-link text-gray-600 font-medium text-base">Projects</a>
+                <a href="#publications" class="nav-link text-gray-600 font-medium text-base">Publications</a>
+                <a href="#blog" class="nav-link text-gray-600 font-medium text-base">Blog</a>
+                <a href="#contact" class="nav-link text-gray-600 font-medium text-base">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg py-2">
+            <a href="#experience" class="block px-6 py-2 text-gray-800 hover:bg-gray-100">Experience</a>
+            <a href="#projects" class="block px-6 py-2 text-gray-800 hover:bg-gray-100">Projects</a>
+            <a href="#publications" class="block px-6 py-2 text-gray-800 hover:bg-gray-100">Publications</a>
+            <a href="#blog" class="block px-6 py-2 text-gray-800 hover:bg-gray-100">Blog</a>
+            <a href="#contact" class="block px-6 py-2 text-gray-800 hover:bg-gray-100">Contact</a>
+        </div>
+    </header>
+
+    <main class="pt-20">
+
+        <!-- Hero & About Section Combined -->
+        <section id="hero" class="min-h-screen flex items-center bg-gray-50 relative overflow-hidden py-20">
+            <!-- Drone Animation Layer -->
+            <div class="absolute inset-0 z-0 pointer-events-none">
+                <div class="drone" style="animation-delay: 0s;">
+                    <svg viewBox="0 0 100 100" class="w-full h-auto text-gray-300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,10 C50,10 55,20 65,25 C60,30 50,30 50,30 C50,30 40,30 35,25 C45,20 50,10 50,10 Z M50,10 C50,10 50,0 55,-5 C65,0 70,10 70,10 C70,10 70,20 65,25 C60,30 50,30 50,30 M50,10 C50,10 50,0 45,-5 C35,0 30,10 30,10 C30,10 30,20 35,25 C40,30 50,30 50,30 Z" style="fill:currentColor;"/>
+                        <circle cx="20" cy="50" r="10"/>
+                        <circle cx="80" cy="50" r="10"/>
+                        <rect x="35" y="45" width="30" height="10"/>
+                    </svg>
+                </div>
+                <div class="drone" style="animation-delay: 10s;">
+                    <svg viewBox="0 0 100 100" class="w-full h-auto text-gray-300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,10 C50,10 55,20 65,25 C60,30 50,30 50,30 C50,30 40,30 35,25 C45,20 50,10 50,10 Z M50,10 C50,10 50,0 55,-5 C65,0 70,10 70,10 C70,10 70,20 65,25 C60,30 50,30 50,30 M50,10 C50,10 50,0 45,-5 C35,0 30,10 30,10 C30,10 30,20 35,25 C40,30 50,30 50,30 Z" style="fill:currentColor;"/>
+                        <circle cx="20" cy="50" r="10"/>
+                        <circle cx="80" cy="50" r="10"/>
+                        <rect x="35" y="45" width="30" height="10"/>
+                    </svg>
+                </div>
+                <div class="drone" style="animation-delay: 20s;">
+                    <svg viewBox="0 0 100 100" class="w-full h-auto text-gray-300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,10 C50,10 55,20 65,25 C60,30 50,30 50,30 C50,30 40,30 35,25 C45,20 50,10 50,10 Z M50,10 C50,10 50,0 55,-5 C65,0 70,10 70,10 C70,10 70,20 65,25 C60,30 50,30 50,30 M50,10 C50,10 50,0 45,-5 C35,0 30,10 30,10 C30,10 30,20 35,25 C40,30 50,30 50,30 Z" style="fill:currentColor;"/>
+                        <circle cx="20" cy="50" r="10"/>
+                        <circle cx="80" cy="50" r="10"/>
+                        <rect x="35" y="45" width="30" height="10"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Main Content Container with Two Columns -->
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex flex-col-reverse md:flex-row items-center md:items-start justify-center gap-16 lg:gap-32">
+                    <!-- Left Column: Biography, Interests, Education -->
+                    <div class="w-full md:w-3/5 text-center md:text-left">
+                        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">Shubh Jain</h1>
+                        
+                        <!-- Biography -->
+                        <div class="text-base leading-relaxed text-gray-700 space-y-4">
+                            <p>
+                                I am Shubh, a graduate student at the Robotics Institute at <a href="https://www.cmu.edu/" target="_blank" class="text-blue-600 hover:underline">Carnegie Mellon University (CMU)</a>, pursuing a <a href="https://mrsd.ri.cmu.edu/" target="_blank" class="text-blue-600 hover:underline">Master of Science in Robotic Systems Development</a>. I am passionate about working at the intersection of computer vision, DL/ML, and controls in robotics.
+                            </p>
+                            <p>
+                                During my undergraduate studies, I dedicated countless hours to designing and building <a href="https://auv-iitk.github.io/" target="_blank" class="text-blue-600 hover:underline">Fully Autonomous Underwater Vehicles</a> for RoboSub from scratch. Additionally, my coursework and projects in areas like image processing, control systems, machine learning, and mechanical design provided a strong foundation that I further advanced through their application in AUVs and my internships.
+                            </p>
+                            <p>
+                                Beyond academia and robotics projects, I find joy in calisthenics, sketching, playing the flute, and Ultimate Frisbee.
+                            </p>
+                        </div>
+
+                        <!-- Interests & Education -->
+                        <div class="grid md:grid-cols-2 gap-8 mt-10">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-3">Interests</h3>
+                                <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
+                                    <li>Robotics</li>
+                                    <li>Computer Vision</li>
+                                    <li>Deep Learning</li>
+                                    <li>Reinforcement Learning</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-3">Education</h3>
+                                <div class="space-y-3 text-base">
+                                    <div>
+                                        <p class="font-semibold">M.S. in Robotic Systems Development, 2025-2027</p>
+                                        <p class="text-gray-600">Carnegie Mellon University</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">B.Tech in Aerospace Engineering, 2021-2025</p>
+                                        <p class="text-gray-600">Indian Institute of Technology, Kanpur</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Profile Photo, Buttons, & Social Links -->
+                    <div class="w-full md:w-2/5 flex flex-col items-center">
+                        <img src="assets/images/Shubh.png" alt="Profile Photo of Shubh Jain" class="rounded-full shadow-2xl w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover transform transition-transform hover:scale-105">
+                        
+                        <!-- Combined Buttons & Social Links -->
+                        <div class="mt-8 flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-3 w-full">
+                            <a href="assets/Shubh_Jain_CV.pdf" download class="bg-gray-800 text-white font-semibold py-2.5 px-6 rounded-full shadow-lg hover:bg-gray-900 transition-colors transform hover:scale-120 text-center text-sm">
+                                Download CV
+                            </a>
+                            <div class="flex space-x-3 text-gray-600">
+                                <a href="https://www.linkedin.com/in/shubh-jain007/" target="_blank" class="hover:text-gray-900 transition-colors transform hover:scale-110">
+                                    <img src="assets/icons/linkedin.svg" alt="LinkedIn" class="w-9 h-9">
+                                </a>
+                                <a href="https://github.com/ShubhJain007" target="_blank" class="hover:text-gray-900 transition-colors transform hover:scale-110">
+                                    <img src="assets/icons/github.svg" alt="GitHub" class="w-9 h-9">
+                                </a>
+                                <a href="mailto:shubhj@andrew.cmu.edu" class="hover:text-gray-900 transition-colors transform hover:scale-110">
+                                    <img src="assets/icons/mail.svg" alt="Email" class="w-9 h-9">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">Experience</h2>
+                <!-- Filter Buttons -->
+                <div id="filter-experience-buttons" class="flex flex-wrap justify-center gap-2 mb-12">
+                    <button data-category="all" class="filter-btn-exp px-4 py-2 rounded-full font-medium text-sm transition-colors active:bg-gray-800 active:text-white bg-gray-800 text-white shadow-md">All</button>
+                    <button data-category="robotics" class="filter-btn-exp px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Robotics</button>
+                    <button data-category="mechatronics" class="filter-btn-exp px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Mechatronics</button>
+                    <button data-category="research" class="filter-btn-exp px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Research</button>
+                    <button data-category="computer-vision" class="filter-btn-exp px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Computer Vision</button>
+                    <button data-category="machine-learning" class="filter-btn-exp px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Machine Learning</button>
+                </div>
+
+                <div id="job-cards" class="space-y-8 max-w-4xl mx-auto">
+                    <!-- Experience 1: Autonomous Underwater Vehicle (AUVIITK) Team -->
+                    <details class="job-card bg-gray-50 p-6 rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl cursor-pointer" open data-category="robotics research computer-vision machine-learning">
+                        <summary class="list-none flex justify-between items-center text-xl font-bold text-gray-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Autonomous Underwater Vehicle (AUVIITK) Team</h3>
+                                <p class="text-gray-600 italic text-sm">Team Lead, IIT Kanpur, India | June 2022 - August 2024</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <div class="mt-4">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
+                                <li>Built a comprehensive hardware-integrated ROS software stack for AUVs, with a GUI for management.</li>
+                                <li>Developed and simulated Visual and Sonar SLAM for mapping and localization in complex underwater environments in Gazebo.</li>
+                                <li>Designed and implemented a GPS-denied inertial navigation system for AUVs, integrating IMU, Doppler Velocity Log (DVL), and visual odometry for precise underwater localization.</li>
+                                <li>Conducted Computational Fluid Dynamics (CFD) and structural analysis iteratively to ensure durability for depths of up to 100m.</li>
+                                <li>Successfully raised over INR 1 million in funding by partnering with companies, startups, and government organizations.</li>
+<li>Developed and deployed stereo vision using two separate cameras for underwater imaging and depth estimation.</li>
+<li>Led a team of 40+ members in building Autonomous Underwater Vehicles (AUVs) and preparing for competitions such as RoboSub and SAUVC (Singapore Autonomous Underwater Vehicle Challenge).</li>
+                            </ul>
+                            <details class="mt-4">
+                                <summary class="font-semibold cursor-pointer text-gray-800 hover:text-gray-700 transition-colors focus:outline-none">Skills Used</summary>
+                                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1 text-base">
+                                    <li>ROS</li>
+                                    <li>SLAM</li>
+                                    <li>Python</li>
+                                    <li>C++</li>
+                                    <li>Open CV</li>
+                                    <li>Ansys</li>
+                                    <li>CAD</li>
+                                </ul>
+                            </details>
+                        </div>
+                    </details>
+                    <!-- Experience 2: Research Publication -->
+                    <details class="job-card bg-gray-50 p-6 rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl cursor-pointer" data-category="research computer-vision">
+                        <summary class="list-none flex justify-between items-center text-xl font-bold text-gray-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">IEEE Autonomous Underwater Vehicle (AUV) Symposium 2024</h3>
+                                <p class="text-gray-600 italic text-sm">Published Work | Virtual, Massachusetts, USA</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <div class="mt-4">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
+                                  <li>Developed a novel adaptive image processing algorithm in C++ for real-time underwater color restoration.</li>
+  <li>Built a lightweight detection pipeline by integrating ENet for semantic segmentation of Regions of Interest (ROI) on CPU with YOLOv7-tiny for fast, accurate detection on Jetson Nano TX2 (ARM Cortex-A57).</li>
+  <li>Designed and implemented a cross-correlation-based tracker with a closed-loop fail-safe control strategy for robust object tracking.</li>
+  <li>Optimized system performance, achieving a <b>15.2% FPS improvement</b> (from 7.9 to 9.1 FPS) on NVIDIA Jetson Nano TX2.</li> 
+                            </ul>
+                            <details class="mt-4">
+                                <summary class="font-semibold cursor-pointer text-gray-800 hover:text-gray-700 transition-colors focus:outline-none">Skills Used</summary>
+                                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1 text-base">
+                                    <li>C++</li>
+                                    <li>Image Processing</li>
+                                    <li>Deep Learning</li>
+
+                                </ul>
+                            </details>
+                        </div>
+                    </details>
+                    <!-- Experience 3: Research Publication -->
+                    <details class="job-card bg-gray-50 p-6 rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl cursor-pointer" data-category="research robotics">
+                        <summary class="list-none flex justify-between items-center text-xl font-bold text-gray-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">IEEE 2024 International Conference on Robotics Automation & Engineering (ICRAE)</h3>
+                                <p class="text-gray-600 italic text-sm">Published Work | Singapore</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <div class="mt-4">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
+                                <li>Designed a physics Model-based Proportional-Integral-Derivative (PID) control system for control and trajectory tracking of underwater vehicles in complex underwater environments.</li>
+                                <li>Simulated and tested the controller in environments like MATLAB and Gazebo, making it ready for implementation on AUVs.</li>
+                                <li>Outperformed traditional PID and Fuzzy logic controllers when simulated in the presence of simulated external disturbances.</li>
+                            </ul>
+                            <details class="mt-4">
+                                <summary class="font-semibold cursor-pointer text-gray-800 hover:text-gray-700 transition-colors focus:outline-none">Skills Used</summary>
+                                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1 text-base">
+                                    <li>MATLAB</li>
+                                    <li>Gazebo</li>
+                                    <li>PID Control</li>
+                                    <li>Hydrodynamics</li>
+                                    <li>Kinematics</li>
+                                    <li>Robotics</li>
+                                </ul>
+                            </details>
+                        </div>
+                    </details>
+                    <!-- Experience 4: Smarttrak Al -->
+                    <details class="job-card bg-gray-50 p-6 rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl cursor-pointer" data-category="mechatronics machine-learning">
+                        <summary class="list-none flex justify-between items-center text-xl font-bold text-gray-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Mechatronics Engineer, Summer Internship</h3>
+                                <p class="text-gray-600 italic text-sm">Smarttrak AI, California, USA (Remote) | May 2024 – July 2024</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <div class="mt-4">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
+                                <li>Designed precise Computer-Aided Design (CAD) models for single and double-axis slew-based solar trackers.</li>
+                                <li>Developed a Neural Network framework to predict next-day energy output by analysing the previous three days data and trends.</li>
+                                <li>Achieved a Mean Absolute Percentage Error (MAPE) of 14.8% and R2 score of 0.68 on day-ahead energy prediction over 2-month real-time data.</li>
+                                <li>Optimized solar tracker designs to endure wind speeds up to $130~km/h$ via iterative Computational Fluid Dynamics (CFD) analysis.</li>
+                            </ul >
+                            <details class="mt-4">
+                                <summary class="font-semibold cursor-pointer text-gray-800 hover:text-gray-700 transition-colors focus:outline-none">Skills Used</summary>
+                                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1 text-base">
+                                    <li>CAD</li>
+                                    <li>CFD Analysis</li>
+                                    <li>Neural Networks</li>
+                                    <li>Python</li>
+                                </ul>
+                            </details>
+                        </div>
+                    </details>
+                    <!-- Experience 5: C3i Hub -->
+                    <details class="job-card bg-gray-50 p-6 rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl cursor-pointer" data-category="research computer-vision machine-learning">
+                        <summary class="list-none flex justify-between items-center text-xl font-bold text-gray-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Undergraduate Research Fellow</h3>
+                                <p class="text-gray-600 italic text-sm">C3i Hub, IIT Kanpur, India | October 2022</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <div class="mt-4">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
+                                <li>Developed a phishing email detection system using the XG Boost algorithm for classification, Bidirectional Encoder Representations from Transformers (BERT) for natural language processing, and Neural Networks for header analysis.</li>
+                                <li>Created a multi-threaded web crawling tool for Open Source critical information gathering and vulnerability analysis.</li>
+                                <li>Cleared first round of IDEX Disc 9 Startup challenge out of 100+ startup entries and pitched to the Indian Air Force.</li>
+                            </ul >
+                            <details class="mt-4">
+                                <summary class="font-semibold cursor-pointer text-gray-800 hover:text-gray-700 transition-colors focus:outline-none">Skills Used</summary>
+                                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1 text-base">
+                                    <li>Machine Learning</li>
+                                    <li>Python</li>
+                                    <li>Neural Networks</li>
+                               
+                                </ul>
+                            </details>
+                        </div>
+                    </details>
+                    <!-- Experience 6: Xterra Robotics, Mobile Robotics Lab -->
+                    <details class="job-card bg-gray-50 p-6 rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl cursor-pointer" data-category="robotics computer-vision">
+                        <summary class="list-none flex justify-between items-center text-xl font-bold text-gray-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Robotics Engineer</h3>
+                                <p class="text-gray-600 italic text-sm">Xterra Robotics, Mobile Robotics Lab (MRL), IIT Kanpur, India | December 2022 – January 2023</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <div class="mt-4">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
+                                <li>Designed and implemented multiple gaits and bot trajectories for a quadruped robot in the ROS framework using Bézier curves.</li>
+                                <li>Successfully integrated LiDAR point cloud data and advanced image processing techniques to predict and analyse the terrain.</li>
+                                <li>Built modular ROS packages to control the quadruped bot with Xbox and PS controllers, significantly enhancing user experience.</li>
+                            </ul>
+                            <details class="mt-4">
+                                <summary class="font-semibold cursor-pointer text-gray-800 hover:text-gray-700 transition-colors focus:outline-none">Skills Used</summary>
+                                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1 text-base">
+                                    <li>ROS</li>
+                                    <li>LiDAR</li>
+                                    <li>Image Processing</li>
+                                    <li>C++</li>
+                                </ul>
+                            </details>
+                        </div>
+                    </details>
+                    <!-- Experience 7: Unsteady Aerodynamics Lab -->
+                    <details class="job-card bg-gray-50 p-6 rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl cursor-pointer" data-category="research robotics">
+                        <summary class="list-none flex justify-between items-center text-xl font-bold text-gray-800">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Research Associate</h3>
+                                <p class="text-gray-600 italic text-sm">Unsteady Aerodynamics Lab, IIT Kanpur, India | June 2022 - March 2023</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <div class="mt-4">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-base">
+                                <li>Engineered morphing wings for robotic birds using kinetic wire structures designed to replicate the movement of natural wings.</li>
+                                <li>Developed customized ArduPilot firmware for quadcopters, enabling seamless dynamic mid-flight configuration changes.</li>
+                            </ul>
+                            <details class="mt-4">
+                                <summary class="font-semibold cursor-pointer text-gray-800 hover:text-gray-700 transition-colors focus:outline-none">Skills Used</summary>
+                                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1 text-base">
+                                    <li>Robotics</li>
+                                    <li>Firmware</li>
+                                    <li>Aerodynamics</li>
+                                </ul>
+                            </details>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-gray-800 mb-8">Projects</h2>
+                <!-- Filter Buttons for Projects -->
+                <div id="filter-project-buttons" class="flex flex-wrap justify-center md:justify-start gap-2 mb-12">
+                    <button data-category="all" class="filter-btn-proj px-4 py-2 rounded-full font-medium text-sm transition-colors active:bg-gray-800 active:text-white bg-gray-800 text-white shadow-md">All</button>
+                    <button data-category="robotics" class="filter-btn-proj px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Robotics</button>
+                    <button data-category="computer-vision" class="filter-btn-proj px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Computer Vision</button>
+                    <button data-category="reinforcement-learning" class="filter-btn-proj px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Reinforcement Learning</button>
+                    <button data-category="deep-learning" class="filter-btn-proj px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Embedded Systems</button>
+
+                </div>
+                
+                <div id="project-cards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project Card 1 -->
+                    <div class="project-card bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="robotics computer-vision">
+                        <a href="https://github.com" target="_blank" class="block">
+                            <img src="assets/images/AUV_Symposium_paper.png" alt="" class="project-img mb-4">
+                        </a>
+                        <a href="https://github.com" target="_blank" class="block hover:underline">
+                            <h3 class="text-lg font-bold text-gray-800">Adaptive Underwater Image Restoration and Object Detection and Tracking</h3>
+                        </a>
+                        <p class="text-gray-600 mt-2 mb-4 leading-relaxed text-sm">
+                            This project implements adaptive image restoration techniques with object detection and tracking. It is optimized for lightweight embedded devices and uses semantic segmentation and cross-correlation-based trackers.
+                        </p>
+                        <a href="https://github.com" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-sm">
+                            <span>View on GitHub</span>
+                            <!-- <img src="/assets/icons/github.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+                    <!-- Project Card 2 -->
+                    <div class="project-card bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="robotics embedded-systems computer-vision deep-learning">
+                        <a href="https://github.com/ShubhJain007/SAUVC24-Anahita-/tree/main/src/SAUVC24-Anahita--master" target="_blank" class="block">
+                            <img src="assets/images/Anahita.png" alt="" class="project-img mb-4">
+                        </a>
+                        <a href="https://github.com" target="_blank" class="block hover:underline">
+                            <h3 class="text-lg font-bold text-gray-800">Autonomous Underwater Vehicle - Anahita</h3>
+                        </a>
+                        <p class="text-gray-600 mt-2 mb-4 leading-relaxed text-sm">
+Contains ROS packages developed for our team’s autonomous underwater vehicle <strong>"Anahita"</strong>, 
+    prepared specifically for the <strong>Singapore Autonomous Underwater Vehicle Challenge 2024</strong>. 
+    This repository includes the complete ROS software stack for <em>control, perception, navigation, and simulation</em>, 
+    along with sensor integration modules.                        </p>
+                        <a href="https://github.com/ShubhJain007/SAUVC24-Anahita-/tree/main/src/SAUVC24-Anahita--master" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-sm">
+                            <span>View on GitHub</span>
+                            <!-- <img src="/assets/icons/github.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+                    <!-- Project Card 3 -->
+                    <div class="project-card bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="computer-vision deep-learning">
+                        <a href="https://github.com/ShubhJain007/RealTime_Enhanced_LipSync/tree/main" target="_blank" class="block">
+                            <img src="assets/images/Real_time_lip_sync.png" alt="" class="project-img mb-4">
+                        </a>
+                        <a href="https://github.com/ShubhJain007/RealTime_Enhanced_LipSync/tree/main" target="_blank" class="block hover:underline">
+                            <h3 class="text-lg font-bold text-gray-800">Enhancing Real-Time Lip-Sync and Avatar
+Quality for Online Meetings</h3>
+                        </a>
+                        <p class="text-gray-600 mt-2 mb-4 leading-relaxed text-sm">
+                            This project presents an AI-driven pipeline for creating realistic, real-time avatars tailored for online meetings and virtual communication. The system combines low-light video enhancement (using LIME, DUAL, and Zero-DCE), lip-sync generation (with MuseTalk), and face restoration (via CodeFormer) to deliver sharp, expressive, and natural-looking avatars. Optimized for real-time performance, it ensures seamless lip synchronization and high visual quality even under challenging lighting conditions.
+                        </p>
+                        <a href="https://github.com/ShubhJain007/RealTime_Enhanced_LipSync/tree/main" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-sm">
+                            <span>View on GitHub</span>
+                            <!-- <img src="/assets/icons/external-link.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+                    <!-- Project Card 4 -->
+                    <div class="project-card bg-white p-4 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="reinforcement-learning">
+                        <a href="https://github.com/ShubhJain007/DVRP?tab=readme-ov-file" target="_blank" class="block">
+                            <!-- <img src="https://placehold.co/400x200/e5e7eb/6b46c1?text=Terra-Former+Robot" alt="Terra-Former Robot" class="project-img mb-4"> -->
+                        </a>
+                        <a href="https://github.com/ShubhJain007/DVRP?tab=readme-ov-file" target="_blank" class="block hover:underline">
+                            <h3 class="text-lg font-bold text-gray-800">Dynamic Vehicle Routing Problem (DVRP) for paratransit services</h3>
+                        </a>
+                        <p class="text-gray-600 mt-2 mb-4 leading-relaxed text-sm">
+This project is a re-implementation of An Online Approach to Solve the Dynamic Vehicle Routing Problem with Stochastic Trip Requests for Paratransit Services. It was developed as part of the course Embedded Cyber-Physical Systems (CS-637) at the Indian Institute of Technology Kanpur, India, focusing on efficient real-time routing strategies for demand-responsive transport systems.                        </p>
+                        <a href="https://github.com/ShubhJain007/DVRP?tab=readme-ov-file" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-sm">
+                            <span>View on GitHub</span>
+                            <!-- <img src="/assets/icons/external-link.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-gray-800 mb-12">Publications</h2>
+                <div class="max-w-4xl mx-auto space-y-10">
+                    <!-- Publication 1 -->
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-file-alt text-lg text-gray-600"></i>
+                            <a href="https://github.com/ShubhJain007/IEEE_AUV_Symposium_2024" target="_blank" class="text-xl font-medium text-gray-700 hover:underline">Adaptive Image Restoration and Object Detection and Tracking using Semantic Segmentation and Cross-Correlation Based Trackers for lightweight embedded devices</a>
+                        </div>
+                        <p class="text-gray-600 pl-7">
+                            Shubh Jain, & Dr. D.K. Giri. Published in IEEE Autonomous Underwater Vehicle (AUV) Symposium 2024.
+                        </p>
+                        <div class="flex space-x-3 pl-7 pt-2">
+                            <a href="https://github.com/ShubhJain007/IEEE_AUV_Symposium_2024" target="_blank" class="publication-link-btn">Code</a>
+                            <a href="https://doi.org/10.1109/AUV61864.2024.11030401" target="_blank" class="publication-link-btn">Paper</a>
+                            <a href="https://drive.google.com/file/d/1dfHoG7XuiuouIJa_5hrabyqOuP8xn1iI/view?usp=sharing" target="_blank" class="publication-link-btn">PPT</a>
+                        </div>
+                    </div>
+                    <!-- Publication 2 -->
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-file-alt text-lg text-gray-600"></i>
+                            <p class="text-xl font-medium text-gray-700">Model-Based PID Control for Trajectory Tracking of Anahita in Real Time</p>
+                        </div>
+                        <p class="text-gray-600 pl-7">
+                            Shubh Jain, Varun Mahajan, & DR. D.K.Giri. Published in IEEE 2024 International Conference on Robotics Automation & Engineering (ICRAE).
+                        </p>
+                        <div class="flex space-x-3 pl-7 pt-2">
+                            <a href="https://drive.google.com/file/d/107d-y38ZDjwO_hPqfhaPQ-6CCl_UyMk3/view?usp=sharing" target="_blank" class="publication-link-btn">Paper</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Blog</h2>
+                <!-- Filter Buttons for Blog Posts -->
+                <!-- <div id="filter-blog-buttons" class="flex flex-wrap justify-center gap-2 mb-12">
+                    <button data-category="all" class="filter-btn-blog px-4 py-2 rounded-full font-medium text-sm transition-colors active:bg-gray-800 active:text-white bg-gray-800 text-white shadow-md">All</button>
+                    <button data-category="tutorials" class="filter-btn-blog px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Tutorials</button>
+                    <button data-category="research" class="filter-btn-blog px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Research</button>
+                    <button data-category="personal" class="filter-btn-blog px-4 py-2 rounded-full font-medium text-sm transition-colors text-gray-700 bg-gray-200 hover:bg-gray-300">Personal</button>
+                </div> -->
+                <div id="blog-cards" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Blog Post 1: Ubuntu on M1/M2 Mac -->
+                    <div class="blog-card bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="tutorials">
+                        <!-- <img src="https://placehold.co/400x200/4b5563/ffffff?text=Tutorial" alt="Blog Post Image" class="w-full h-40 object-cover rounded-lg mb-4"> -->
+                        <a href="https://medium.com/thedeephub/install-linux-ubuntu-20-04-on-m1-m2-mac-silicon-de1992d5fa26" target="_blank" class="block hover:underline">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Install Linux Ubuntu 20.04 on M1/M2 Mac Silicon</h3>
+                        </a>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-base">
+                            A comprehensive guide on how to install and set up Ubuntu on Apple's M1 and M2 Mac Silicon.
+                        </p>
+                        <a href="https://medium.com/thedeephub/install-linux-ubuntu-20-04-on-m1-m2-mac-silicon-de1992d5fa26" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-base">
+                            <span>Read on Medium</span>
+                            <!-- <img src="assets/icons/external-link.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+                    <!-- Blog Post 2: ROS2 Humble on Mac -->
+                    <div class="blog-card bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="tutorials">
+                        <!-- <img src="https://placehold.co/400x200/4b5563/ffffff?text=Tutorial" alt="Blog Post Image" class="w-full h-40 object-cover rounded-lg mb-4"> -->
+                        <a href="https://medium.com/@shubhjain_007/installing-ros2-humble-gazebo-on-mac-m1-m2-m3-silicon-853e0737dcc8" target="_blank" class="block hover:underline">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Installing ROS2 Humble + Gazebo on Mac M1/M2/M3 Silicon</h3>
+                        </a>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-base">
+                            A step-by-step tutorial for robotics enthusiasts to get ROS2 and Gazebo running on Apple Silicon.
+                        </p>
+                        <a href="https://medium.com/@shubhjain_007/installing-ros2-humble-gazebo-on-mac-m1-m2-m3-silicon-853e0737dcc8" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-base">
+                            <span>Read on Medium</span>
+                            <!-- <img src="assets/icons/external-link.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+                    <!-- Blog Post 3: Kali Linux on M1/M2 Mac -->
+                    <div class="blog-card bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="tutorials">
+                        <!-- <img src="https://placehold.co/400x200/4b5563/ffffff?text=Tutorial" alt="Blog Post Image" class="w-full h-40 object-cover rounded-lg mb-4"> -->
+                        <a href="https://medium.com/@shubhjain_007/install-linux-kali-on-m1-m2-mac-silicon-8d853b8cd727" target="_blank" class="block hover:underline">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Install Linux Kali on M1/M2 Mac Silicon</h3>
+                        </a>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-base">
+                            A guide on how to install and run Kali Linux on Apple's M1 and M2 Mac Silicon for penetration testing.
+                        </p>
+                        <a href="https://medium.com/@shubhjain_007/install-linux-kali-on-m1-m2-mac-silicon-8d853b8cd727" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-base">
+                            <span>Read on Medium</span>
+                            <!-- <img src="/assets/icons/external-link.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+                    <!-- Blog Post 4: VMware Fusion Pro on Mac -->
+                    <div class="blog-card bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300" data-category="tutorials">
+                        <!-- <img src="https://placehold.co/400x200/4b5563/ffffff?text=Tutorial" alt="Blog Post Image" class="w-full h-40 object-cover rounded-lg mb-4"> -->
+                        <a href="https://medium.com/thedeephub/vmware-fusion-pro-13-now-freely-available-for-personal-use-heres-how-you-can-install-it-7d429f1ae34e" target="_blank" class="block hover:underline">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">VMware Fusion Pro 13 Now Freely Available</h3>
+                        </a>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-base">
+                            Learn how to install and use the now-free VMware Fusion Pro 13 for personal use.
+                        </p>
+                        <a href="https://medium.com/thedeephub/vmware-fusion-pro-13-now-freely-available-for-personal-use-heres-how-you-can-install-it-7d429f1ae34e" target="_blank" class="text-gray-800 hover:underline font-semibold flex items-center gap-1 text-base">
+                            <span>Read on Medium</span>
+                            <!-- <img src="/assets/icons/external-link.svg" alt="External Link" class="w-4 h-4"> -->
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Get in Touch</h2>
+                <div class="max-w-xl mx-auto text-center">
+                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+I am looking to pursue opportunities in both industry and research, with a strong focus on robotics, controls, and computer vision. I am open to exciting roles, collaborations, or mentorship, and would be happy to connect via email or through my professional networks.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6">
+                        <a href="mailto:shubhj@andrew.cmu.edu" class="text-gray-800 hover:text-gray-900 transition-colors flex items-center justify-center">
+                            <img src="assets/icons/mail.svg" alt="Email" class="w-6 h-6 mr-2">
+                            <span class="text-base">shubhj@andrew.cmu.edu</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/shubh-jain007/" target="_blank" class="text-gray-800 hover:text-gray-900 transition-colors flex items-center justify-center">
+                            <img src="assets/icons/linkedin.svg" alt="LinkedIn" class="w-6 h-6 mr-2">
+                            <span class="text-base">LinkedIn</span>
+                        </a>
+                        <a href="https://github.com/ShubhJain007" target="_blank" class="text-gray-800 hover:text-gray-900 transition-colors flex items-center justify-center">
+                            <img src="assets/icons/github.svg" alt="GitHub" class="w-6 h-6 mr-2">
+                            <span class="text-base">GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm">&copy; 2025 Shubh Jain. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu, Smooth Scrolling, and Filtering -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Smooth Scrolling for all links with a hash
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu after clicking a link
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Toggle the arrow icon on summary click
+        document.querySelectorAll('details').forEach(detail => {
+            detail.addEventListener('toggle', () => {
+                const icon = detail.querySelector('summary svg');
+                if (icon) {
+                    if (detail.open) {
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+        });
+
+        // Experience Filter Functionality
+        const filterExpButtons = document.querySelectorAll('.filter-btn-exp');
+        const jobCards = document.querySelectorAll('.job-card');
+
+        filterExpButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+
+                filterExpButtons.forEach(btn => {
+                    btn.classList.remove('filter-btn-active', 'bg-gray-800', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                });
+                button.classList.add('filter-btn-active', 'bg-gray-800', 'text-white');
+                button.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+                jobCards.forEach(card => {
+                    const cardCategories = card.getAttribute('data-category').split(' ');
+                    if (category === 'all' || cardCategories.includes(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Project Filter Functionality
+        const filterProjButtons = document.querySelectorAll('.filter-btn-proj');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterProjButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+
+                filterProjButtons.forEach(btn => {
+                    btn.classList.remove('filter-btn-active', 'bg-gray-800', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                });
+                button.classList.add('filter-btn-active', 'bg-gray-800', 'text-white');
+                button.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+                projectCards.forEach(card => {
+                    const cardCategories = card.getAttribute('data-category').split(' ');
+                    if (category === 'all' || cardCategories.includes(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Blog Filter Functionality
+        const filterBlogButtons = document.querySelectorAll('.filter-btn-blog');
+        const blogCards = document.querySelectorAll('.blog-card');
+
+        filterBlogButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+
+                filterBlogButtons.forEach(btn => {
+                    btn.classList.remove('filter-btn-active', 'bg-gray-800', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                });
+                button.classList.add('filter-btn-active', 'bg-gray-800', 'text-white');
+                button.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+                blogCards.forEach(card => {
+                    const cardCategories = card.getAttribute('data-category').split(' ');
+                    if (category === 'all' || cardCategories.includes(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
